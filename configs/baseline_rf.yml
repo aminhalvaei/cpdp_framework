@@ -1,0 +1,47 @@
+experiment_name: "baseline_rf"
+seed: 42
+
+source_dataset:
+  name: CsvDataset
+  params:
+    path: "data/source.csv"       # TODO: point to your actual source CSV
+    label_column: "buggy"         # column with 0/1 labels
+
+target_dataset:
+  name: CsvDataset
+  params:
+    path: "data/target.csv"       # TODO: point to your actual target CSV
+    label_column: "buggy"
+
+preprocessing:
+  steps:
+    - name: StandardScaler
+      params: {}
+    - name: NoImbalanceHandling
+      params: {}
+    - name: NoFeatureSelection
+      params: {}
+
+instance_selection:
+  name: NoneInstanceSelection
+  params: {}
+
+project_selection:
+  name: AllProjectsSelector
+  params: {}
+
+transfer_learning:
+  name: NoneTransfer
+  params: {}
+
+model:
+  name: RandomForest
+  params:
+    n_estimators: 100
+    max_depth: 8
+    random_state: 42
+
+evaluation:
+  name: BinaryClassificationEvaluator
+  params:
+    metrics: ["auc", "f1", "precision", "recall"]
